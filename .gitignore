@@ -1,8 +1,7 @@
 
-FlowCopy.xcodeproj/project.xcworkspace/
+FlowCopy.xcodeproj
 Torrents
 dfile
 *.torrent
-
-
-FlowCopy.xcodeproj/project.pbxproj
+.cvs
+CVS

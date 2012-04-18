@@ -7,12 +7,17 @@
 # Set environment variables
 source flowcopy_env
 
-# Remove the download info file -- it may be from a previous location/invocation
-rm "$DOWNLOAD_INFO_FILE" 2&> /dev/null
-
 # Be sure the Torrent directory exists
-mkdir "$TORRENT_DIR" 2&> /dev/null
+mkdir "$TORRENT_DIR" > /dev/null 2>&1
 
+# Clean up.  (Not every user will be interested.)
+# Remove the download info file -- it may be from a previous location/invocation
+rm "$DOWNLOAD_INFO_FILE" > /dev/null 2>&1
+# Be sure there are no old torrents hanging around
+rm "$TORRENT_DIR/*.torrent" > /dev/null 2>&1
+
+
+echo
 echo "Flowcopy tracker running on http://$MYIPADDRESS:$PORT"
 echo
 
@@ -21,5 +26,5 @@ $PYTHON "$BITTORNADO_DIR/bttrack.py" \
     --port $PORT --dfile "$DOWNLOAD_INFO_FILE" \
     --allow_get 1 --show_names 1 \
     --allowed_dir "$TORRENT_DIR" \
-    --parse_dir_interval 10
+    --parse_dir_interval 5
 

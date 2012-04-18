@@ -24,6 +24,9 @@ $PYTHON "$BITTORNADO_DIR/btmakemetafile.py" \
     http://$MYIPADDRESS:$PORT/announce \
     $FILE --target "$TORRENT_FILE_NAME"
     
+echo "Waiting for tracker to see the new .torrent file"
+sleep 10    # tracker checks every 5 seconds
+
 # Now, seed the file
 $PYTHON "$BITTORNADO_DIR/btdownloadcurses.py" \
     --responsefile "$TORRENT_FILE_NAME" \
