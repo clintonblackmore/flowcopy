@@ -45,6 +45,14 @@ URL_PATH=`"$CURL" --silent "$TRACKER_IP:$PORT" | grep "$FILENAME" | grep -o -E '
 $PYTHON "$BITTORNADO_DIR/btdownloadcurses.py" \
     --url "http://$TRACKER_IP:$PORT$URL_PATH" \
     --saveas "$OUTPUT_FILENAME" \
-    --ip "$MYIPADDRESS"
+    --ip "$MYIPADDRESS" \
+    --upnp_nat_access 0 \
+    --max-uploads 1 \
+    --timeout 2.0 --timeout_check_interval 1.0 \
+    --rerequest_interval 15 http_timeout 5 \
+    --write_buffer_size 16 --snub_time 10 \
+    --security 0 --max_connections 64 --double_check 0 --lock_files 0 
+ 
+# --max_upload_rate 10240 --max_download_rate 10240
 
 

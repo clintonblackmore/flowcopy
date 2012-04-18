@@ -26,5 +26,9 @@ $PYTHON "$BITTORNADO_DIR/bttrack.py" \
     --port $PORT --dfile "$DOWNLOAD_INFO_FILE" \
     --allow_get 1 --show_names 1 \
     --allowed_dir "$TORRENT_DIR" \
-    --parse_dir_interval 5
-
+    --parse_dir_interval 5 \
+    --timeout_downloaders_interval 120 \
+    --reannounce_interval 15 \
+    --response_size 500 \
+    --nat_check 0 
+    
