@@ -5,3 +5,6 @@ dfile
 *.torrent
 .cvs
 CVS
+BitTornado/dstate
+flowcopy.sh
+*.pyc
