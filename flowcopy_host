@@ -33,9 +33,9 @@ $PYTHON "$BITTORNADO_DIR/btdownloadcurses.py" \
     --saveas "$FILE" \
     --ip "$MYIPADDRESS"
     --upnp_nat_access 0 \
-    --max-uploads 1 \
+    --max_uploads 1 \
     --timeout 2.0 --timeout_check_interval 1.0 \
-    --rerequest_interval 15 http_timeout 5 \
+    --rerequest_interval 15 --http_timeout 5 \
     --write_buffer_size 16 --snub_time 10 \
     --security 0 --max_connections 64 --double_check 0 --lock_files 0 
 
