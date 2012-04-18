@@ -1,0 +1,25 @@
+#!/bin/sh 
+
+# Starts a tracker
+# Note: this computer will run the tracker webserver, host the torrents,
+# and seed the files.
+
+# Set environment variables
+source flowcopy_env
+
+# Remove the download info file -- it may be from a previous location/invocation
+rm "$DOWNLOAD_INFO_FILE" 2&> /dev/null
+
+# Be sure the Torrent directory exists
+mkdir "$TORRENT_DIR" 2&> /dev/null
+
+echo "Flowcopy tracker running on $MYIPADDRESS:$PORT"
+echo "-------------------------"
+
+# Start the tracker
+$PYTHON "$BITTORNADO_DIR/bttrack.py" \
+    --port $PORT --dfile "$DOWNLOAD_INFO_FILE" \
+    --allow_get 1 --show_names 1 \
+    --allowed_dir "$TORRENT_DIR" \
+    --parse_dir_interval 10
+

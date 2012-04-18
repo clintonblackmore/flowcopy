@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# Set environment variables for flowcopy
+
+# How do we run python?
+PYTHON="/usr/bin/env python"
+
+# Where is the Bittornado python library?
+BITTORNADO_DIR="~/Downloads/BitTornado-CVS"
+
+# What is my IP address? (Works on a Mac).
+MYIPADDRESS=`ifconfig | grep cast | head -n 1 | awk '{print $2}'`
+
+# What port do we host/reach the bittorrent tracker on?
+PORT=8999
+
+
+# How do we execute curl?
+CURL="curl"
+
+
+# These variables are just for the tracker/host.
+
+# Where do we store the .torrent files?
+TORRENT_DIR="Torrents"
+
+# Which file will keep track of download info?
+# Note that the current implementation wipes out this file first.
+DOWNLOAD_INFO_FILE="dfile"

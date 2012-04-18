@@ -1,0 +1,50 @@
+#!/bin/sh 
+
+# Acts as a peer for the file -- transmits it and receives it.
+
+# Set env variables
+source flowcopy_env
+
+
+# Parameters: 
+# - IP Address of tracker
+# - Name of file to download
+# - Optional: Path and filename to save the file
+
+TRACKER_IP="$1"
+FILENAME="$2"
+OUTPUT_FILENAME="$3"
+
+
+display_usage() {
+    echo "Transcieve [transmit and receive] a file being served via flowcopy."
+    echo
+    echo "Usage:$0 host file [saveas]"
+    echo
+    echo "  'host' is the IP or DNS name of the computer running the tracker and seeding the torrent."
+    echo "  'file' is the name of the file you want to transcieve."
+    echo "  'saveas' is the optional path and file name to save the file as."
+}
+
+if [ -z "$TRACKER_IP" ] ; then display_usage ; exit 1 ; fi
+if [ -z "$FILENAME" ] ; then display_usage ; exit 1 ; fi
+if [ -z "$OUTPUT_FILENAME" ] ; then OUTPUT_FILENAME="$FILENAME" ; fi
+
+
+# Check that the tracker is running
+if [ `"$CURL" --silent "$TRACKER_IP:$PORT" | grep -c "BitTornado"` == "0" ] ; then
+    echo "Tracker is not responding at $TRACKER_IP:$PORT.  Quitting.".
+    exit 1
+fi
+
+# Get the URL of the file we are seeking
+URL_PATH=`"$CURL" --silent "$TRACKER_IP:$PORT" | grep "$FILENAME" | grep -o -E 'href="([^"#]+)"' | cut -d '"' -f 2`
+
+# Start transcieving the file
+
+$PYTHON "$BITTORNADO_DIR/btdownloadcurses.py" \
+    --url "http://$TRACKER_IP:$PORT$URL_PATH" \
+    --saveas "$OUTPUT_FILENAME" \
+    --ip "$MYIPADDRESS"
+
+

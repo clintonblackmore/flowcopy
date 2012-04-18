@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# Set environment variables
+source flowcopy_env
+
+# Check that a tracker is already running
+if [ `"$CURL" --silent "$MYIPADDRESS:$PORT" | grep -c "BitTornado"` == "0" ] ; then
+    echo "Could not find a tracker running on this computer."
+    echo "Please run flowcopy_start_tracker, and then re-issue this command."
+    exit 1
+fi
+
+# Input: Path of the file to host
+FILE="$1"
+if [ -z "$FILE" ] ; then echo "Please specify the name of the file you'd like to host" ; exit 1 ; fi
+
+TORRENT_FILE_NAME="$TORRENT_DIR/`basename $FILE`.torrent"
+echo $TORRENT_FILE_NAME
+
+echo "Scanning file"
+
+# Create a .torrent file for this file, and store it in the torrents directory
+$PYTHON "$BITTORNADO_DIR/btmakemetafile.py" \
+    http://$MYIPADDRESS:$PORT/announce \
+    $FILE --target "$TORRENT_FILE_NAME"
+    
+# Now, seed the file
+$PYTHON "$BITTORNADO_DIR/btdownloadcurses.py" \
+    --responsefile "$TORRENT_FILE_NAME" \
+    --saveas "$FILE" \
+    --ip "$MYIPADDRESS"
+
+
