@@ -13,8 +13,8 @@ rm "$DOWNLOAD_INFO_FILE" 2&> /dev/null
 # Be sure the Torrent directory exists
 mkdir "$TORRENT_DIR" 2&> /dev/null
 
-echo "Flowcopy tracker running on $MYIPADDRESS:$PORT"
-echo "-------------------------"
+echo "Flowcopy tracker running on http://$MYIPADDRESS:$PORT"
+echo
 
 # Start the tracker
 $PYTHON "$BITTORNADO_DIR/bttrack.py" \
